@@ -20,7 +20,6 @@ def get_session_history(session_id: str) -> InMemoryChatMessageHistory:
 
 @app.route('/')
 def index():
-    # Assign a unique session ID to the user if they don't have one
     if 'session_id' not in session:
         session['session_id'] = str(uuid.uuid4())
     return render_template('index.html')
@@ -35,20 +34,16 @@ def chat():
     if not user_message:
         return jsonify({"error": "Message is required"}), 400
 
-    # 1. Initialize the specific Ollama model requested by the user
     llm = ChatOllama(model=model_name)
 
-    # 2. Set up the prompt template with a placeholder for the chat history
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are a helpful, concise AI assistant."),
         MessagesPlaceholder(variable_name="history"),
         ("human", "{question}")
     ])
 
-    # 3. Chain the prompt and the LLM
     chain = prompt | llm
 
-    # 4. Wrap the chain with LangChain's history manager
     chain_with_history = RunnableWithMessageHistory(
         chain,
         get_session_history,
@@ -57,8 +52,6 @@ def chat():
     )
 
     try:
-        # 5. Invoke the chain. LangChain automatically fetches the history for the session ID
-        # passes it to the prompt, gets the response, and saves the new exchange.
         response = chain_with_history.invoke(
             {"question": user_message},
             config={"configurable": {"session_id": session_id}}

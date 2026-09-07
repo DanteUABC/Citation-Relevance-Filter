@@ -24,8 +24,8 @@
 <body>
 
     <div class="sidebar">
-        <h2>Model Selection</h2>
-        <label for="model-select">Active AI:</label>
+        <h2>Selección de Modelo</h2>
+        <label for="model-select">Opciones:</label>
         <select id="model-select">
             <option value="gemma3:4b">Gemma 3 (4B)</option>
             <option value="qwen3:4b">Qwen 3 (4B)</option>
@@ -35,12 +35,12 @@
 
     <div class="chat-container">
         <div class="chat-box" id="chat-box">
-            <div class="message ai-msg">Hello! I'm ready. You can swap models anytime in the sidebar and I'll remember our chat.</div>
+            <div class="message ai-msg">Estoy listo cuando tú lo estés.</div>
         </div>
-        <div class="loading" id="loading-indicator">The AI is thinking...</div>
+        <div class="loading" id="loading-indicator">Pensando...</div>
         
         <div class="input-area">
-            <input type="text" id="user-input" placeholder="Type your prompt here..." onkeypress="handleEnter(event)">
+            <input type="text" id="user-input" placeholder="Escribe tu prompt aquí..." onkeypress="handleEnter(event)">
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
